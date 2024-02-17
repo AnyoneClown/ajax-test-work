@@ -1,21 +1,22 @@
 import pytest
+from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common import TimeoutException
-from selenium.webdriver.common.by import By
 
 from framework import LoginPage
 
 
-@pytest.mark.parametrize("username, password, expected_result", [
+@pytest.mark.parametrize("email, password, expected_result", [
+    ("invalid_email", "valid_password", False),
     ("qa.ajax.app.automation@gmail.com", "qa_automation_password", True),
-    ("invalid_username", "valid_password", False),
 ])
 def test_user_login(user_login_fixture: LoginPage, email: str, password: str, expected_result: bool) -> None:
     user_login_fixture.login(email, password)
 
     try:
-        user_login_fixture.wait_for_element(By.ID, "com.ajaxsystems:id/hubAdd")
+        user_login_fixture.find_element((AppiumBy.ID, "com.ajaxsystems:id/hubAdd"), timeout=5)
         button_found = True
     except TimeoutException:
+        user_login_fixture.click_element((AppiumBy.ID, "com.ajaxsystems:id/back"))
         button_found = False
 
     assert button_found == expected_result
