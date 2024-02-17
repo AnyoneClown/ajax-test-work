@@ -20,3 +20,8 @@ def test_user_login(user_login_fixture: LoginPage, email: str, password: str, ex
         button_found = False
 
     assert button_found == expected_result
+
+def test_user_logout(user_login_fixture: LoginPage) -> None:
+    user_login_fixture.logout()
+    logo = user_login_fixture.find_element((AppiumBy.ID, "com.ajaxsystems:id/logo"))
+    assert logo
