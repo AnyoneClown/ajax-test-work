@@ -3,6 +3,7 @@ import time
 
 import pytest
 from appium import webdriver
+from appium.options.common import AppiumOptions
 
 from utils.android_utils import android_get_desired_capabilities
 
@@ -21,5 +22,5 @@ def run_appium_server():
 
 @pytest.fixture(scope='session')
 def driver(run_appium_server):
-    driver = webdriver.Remote('http://localhost:4723/wd/hub', android_get_desired_capabilities())
+    driver = webdriver.Remote('http://localhost:4723/wd/hub', options=AppiumOptions().load_capabilities(android_get_desired_capabilities()))
     yield driver
