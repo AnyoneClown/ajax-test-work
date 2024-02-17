@@ -9,7 +9,7 @@ def android_get_desired_capabilities():
         'resetKeyboard': True,
         'systemPort': 8301,
         'takesScreenshot': True,
-        'udid': '11bd127d',
+        'udid': 'adb-414e7250-OZJrqe._adb-tls-connect._tcp', # 11bd127d
         'appPackage': 'com.ajaxsystems',
         'appActivity': 'com.ajaxsystems.ui.activity.LauncherActivity'
 }

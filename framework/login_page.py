@@ -1,5 +1,6 @@
 from appium.webdriver.common.appiumby import AppiumBy
 
+from utils.logging_config import logger
 from .page import Page
 
 
@@ -16,15 +17,23 @@ class LoginPage(Page):
     def login(self, email: str, password: str) -> None:
         """Login to the application with provided credentials"""
 
+        logger.info("Clicking login button")
         self.click_element(self.login_button)
+        logger.info("Clearing email field")
         self.clean_field_value(self.email_field)
+        logger.info("Inserting email")
         self.insert_value(self.email_field, email)
+        logger.info("Inserting password")
         self.insert_value(self.password_field, password)
+        logger.info("Clicking confirm button")
         self.click_element(self.confirm_button)
 
     def logout(self) -> None:
         """Logout via settings"""
 
+        logger.info("Opening menu drawer")
         self.click_element(self.menu_drawer)
+        logger.info("Opening settings")
         self.click_element(self.settings)
+        logger.info("Logging out")
         self.click_element(self.sign_out_button)
