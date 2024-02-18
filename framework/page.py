@@ -8,9 +8,7 @@ class Page:
         self.driver = driver
 
     def find_element(self, locator: tuple, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(locator)
-        )
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
 
     def click_element(self, locator: tuple):
         element = self.find_element(locator)

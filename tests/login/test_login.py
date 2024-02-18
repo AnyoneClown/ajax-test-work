@@ -6,10 +6,13 @@ from framework import LoginPage
 from utils.logging_config import logger
 
 
-@pytest.mark.parametrize("email, password, expected_result", [
-    ("invalid_email", "valid_password", False),
-    ("qa.ajax.app.automation@gmail.com", "qa_automation_password", True),
-])
+@pytest.mark.parametrize(
+    "email, password, expected_result",
+    [
+        ("invalid_email", "valid_password", False),
+        ("qa.ajax.app.automation@gmail.com", "qa_automation_password", True),
+    ],
+)
 def test_user_login(user_login_fixture: LoginPage, email: str, password: str, expected_result: bool) -> None:
     logger.info(f"Logging in with email: {email} and password: {password}")
     user_login_fixture.login(email, password)
@@ -26,18 +29,40 @@ def test_user_login(user_login_fixture: LoginPage, email: str, password: str, ex
 
 
 @pytest.mark.parametrize(
-    'locator, exit_button, expected_element',
+    "locator, exit_button, expected_element",
     [
-        ((AppiumBy.ID, 'com.ajaxsystems:id/settings'), (AppiumBy.ID, "com.ajaxsystems:id/back"), (AppiumBy.ID, "com.ajaxsystems:id/toolbarTitle")),
-        ((AppiumBy.ID, 'com.ajaxsystems:id/help'), (AppiumBy.ID, "com.ajaxsystems:id/back"), (AppiumBy.ID, 'com.ajaxsystems:id/navigation')),
-        ((AppiumBy.ID, 'com.ajaxsystems:id/logs'), (AppiumBy.ID, "com.ajaxsystems:id/sendButton"), (AppiumBy.ID, 'com.ajaxsystems:id/content')),
-        ((AppiumBy.ID, 'com.ajaxsystems:id/camera'), (AppiumBy.ID, "com.ajaxsystems:id/back"), (AppiumBy.ID, 'com.ajaxsystems:id/toolbarTitle')),
-        ((AppiumBy.ID, 'com.ajaxsystems:id/addHub'), (AppiumBy.ID, "com.ajaxsystems:id/backButton"), (AppiumBy.ID, 'com.ajaxsystems:id/title'))
-    ]
+        (
+            (AppiumBy.ID, "com.ajaxsystems:id/settings"),
+            (AppiumBy.ID, "com.ajaxsystems:id/back"),
+            (AppiumBy.ID, "com.ajaxsystems:id/toolbarTitle"),
+        ),
+        (
+            (AppiumBy.ID, "com.ajaxsystems:id/help"),
+            (AppiumBy.ID, "com.ajaxsystems:id/back"),
+            (AppiumBy.ID, "com.ajaxsystems:id/navigation"),
+        ),
+        (
+            (AppiumBy.ID, "com.ajaxsystems:id/logs"),
+            (AppiumBy.ID, "com.ajaxsystems:id/sendButton"),
+            (AppiumBy.ID, "com.ajaxsystems:id/content"),
+        ),
+        (
+            (AppiumBy.ID, "com.ajaxsystems:id/camera"),
+            (AppiumBy.ID, "com.ajaxsystems:id/back"),
+            (AppiumBy.ID, "com.ajaxsystems:id/toolbarTitle"),
+        ),
+        (
+            (AppiumBy.ID, "com.ajaxsystems:id/addHub"),
+            (AppiumBy.ID, "com.ajaxsystems:id/backButton"),
+            (AppiumBy.ID, "com.ajaxsystems:id/title"),
+        ),
+    ],
 )
 def test_sidebar_components(user_login_fixture, locator, exit_button, expected_element):
-    logger.info(f"Testing sidebar component with locator: {locator}, exit button: {exit_button}, expected element: {expected_element}")
-    user_login_fixture.click_element((AppiumBy.ID, 'com.ajaxsystems:id/menuDrawer'))
+    logger.info(
+        f"Testing sidebar component with locator: {locator}, exit button: {exit_button}, expected element: {expected_element}"
+    )
+    user_login_fixture.click_element((AppiumBy.ID, "com.ajaxsystems:id/menuDrawer"))
     user_login_fixture.click_element(locator)
     assert user_login_fixture.find_element(expected_element)
     user_login_fixture.click_element(exit_button)
