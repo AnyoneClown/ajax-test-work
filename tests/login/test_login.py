@@ -10,8 +10,10 @@ from utils.logging_config import logger
     "email, password, expected_result",
     [
         ("invalid_email", "valid_password", False),
+        ("qa.ajax.app.automation@gmail.com", "valid_password", False),
         ("qa.ajax.app.automation@gmail.com", "qa_automation_password", True),
     ],
+    ids=["Ivalid credentials", "Wrong password", "Valid credentials"]
 )
 def test_user_login(user_login_fixture: LoginPage, email: str, password: str, expected_result: bool) -> None:
     logger.info(f"Logging in with email: {email} and password: {password}")
@@ -57,6 +59,7 @@ def test_user_login(user_login_fixture: LoginPage, email: str, password: str, ex
             (AppiumBy.ID, "com.ajaxsystems:id/title"),
         ),
     ],
+    ids=["Settings", "Help", "Logs", "Camera", "Add Hub"]
 )
 def test_sidebar_components(user_login_fixture, locator, exit_button, expected_element):
     logger.info(
