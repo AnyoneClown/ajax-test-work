@@ -3,7 +3,7 @@ import subprocess
 from utils.logging_config import logger
 
 
-def get_udid():
+def get_udid() -> str:
     try:
         udid = subprocess.run(["adb", 'devices', '-l'], shell=True, text=True, capture_output=True)
         logger.info(f"Device UDID: {udid}")
@@ -13,7 +13,7 @@ def get_udid():
         return "adb-414e7250-OZJrqe._adb-tls-connect._tcp"
 
 
-def android_get_desired_capabilities():
+def android_get_desired_capabilities() -> dict:
     return {
         "autoGrantPermissions": True,
         "automationName": "uiautomator2",
