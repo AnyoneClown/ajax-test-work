@@ -4,13 +4,10 @@ from utils.logging_config import logger
 
 
 def get_udid() -> str:
-    try:
-        udid = subprocess.run(["adb", 'devices', '-l'], shell=True, text=True, capture_output=True)
-        logger.info(f"Device UDID: {udid}")
-        return udid.stdout.split()[0]
-    except Exception as e:
-        logger.error("Failed to get device UDID", exc_info=True)
-        return "adb-414e7250-OZJrqe._adb-tls-connect._tcp"
+    udid_process = subprocess.run(["adb", "devices", "-l"], shell=True, text=True, capture_output=True)
+    udid = udid_process.stdout.split()[4]
+    logger.info(f"Device UDID: {udid}")
+    return udid
 
 
 def android_get_desired_capabilities() -> dict:

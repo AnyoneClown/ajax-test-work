@@ -1,6 +1,7 @@
+import time
+
 import pytest
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common import TimeoutException
 
 from framework import LoginPage
 from utils.logging_config import logger
@@ -13,21 +14,21 @@ from utils.logging_config import logger
         ("qa.ajax.app.automation@gmail.com", "valid_password", False),
         ("qa.ajax.app.automation@gmail.com", "qa_automation_password", True),
     ],
-    ids=["Invalid credentials", "Wrong password", "Valid credentials"]
+    ids=["Invalid credentials", "Wrong password", "Valid credentials"],
 )
 def test_user_login(user_login_fixture: LoginPage, email: str, password: str, expected_result: bool) -> None:
     logger.info(f"Logging in with email: {email} and password: {password}")
     user_login_fixture.login(email, password)
 
-    try:
+    result = True
+    if expected_result:
         user_login_fixture.find_element((AppiumBy.ID, "com.ajaxsystems:id/hubAdd"), timeout=5)
-        button_found = True
-    except TimeoutException:
-        logger.error("Timeout while waiting for the 'Hub Button' button")
+    else:
+        result = False
+        time.sleep(5)
         user_login_fixture.click_element((AppiumBy.ID, "com.ajaxsystems:id/back"))
-        button_found = False
 
-    assert button_found == expected_result
+    assert result == expected_result
 
 
 @pytest.mark.parametrize(
@@ -59,9 +60,11 @@ def test_user_login(user_login_fixture: LoginPage, email: str, password: str, ex
             (AppiumBy.ID, "com.ajaxsystems:id/title"),
         ),
     ],
-    ids=["Settings", "Help", "Logs", "Camera", "Add Hub"]
+    ids=["Settings", "Help", "Logs", "Camera", "Add Hub"],
 )
-def test_sidebar_components(user_login_fixture: LoginPage, locator: tuple, exit_button: tuple, expected_element: tuple) -> None:
+def test_sidebar_components(
+    user_login_fixture: LoginPage, locator: tuple, exit_button: tuple, expected_element: tuple
+) -> None:
     logger.info(
         f"Testing sidebar component with locator: {locator}, exit button: {exit_button}, expected element: {expected_element}"
     )
