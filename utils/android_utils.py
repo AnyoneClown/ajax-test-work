@@ -4,7 +4,7 @@ from utils.logging_config import logger
 
 
 def get_udid() -> str:
-    udid_process = subprocess.run(["adb", 'devices', '-l'], shell=True, text=True, capture_output=True)
+    udid_process = subprocess.run(["adb", "devices", "-l"], shell=True, text=True, capture_output=True)
     udid = udid_process.stdout.split()[4]
     logger.info(f"Device UDID: {udid}")
     return udid
