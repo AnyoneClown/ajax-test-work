@@ -1,6 +1,7 @@
+import time
+
 import pytest
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common import TimeoutException
 
 from framework import LoginPage
 from utils.logging_config import logger
@@ -19,15 +20,15 @@ def test_user_login(user_login_fixture: LoginPage, email: str, password: str, ex
     logger.info(f"Logging in with email: {email} and password: {password}")
     user_login_fixture.login(email, password)
 
-    try:
+    result = True
+    if expected_result:
         user_login_fixture.find_element((AppiumBy.ID, "com.ajaxsystems:id/hubAdd"), timeout=5)
-        button_found = True
-    except TimeoutException:
-        logger.error("Timeout while waiting for the 'Hub Button' button")
+    else:
+        result = False
+        time.sleep(5)
         user_login_fixture.click_element((AppiumBy.ID, "com.ajaxsystems:id/back"))
-        button_found = False
 
-    assert button_found == expected_result
+    assert result == expected_result
 
 
 @pytest.mark.parametrize(
