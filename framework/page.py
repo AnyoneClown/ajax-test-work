@@ -22,3 +22,7 @@ class Page:
 
     def clean_field_value(self, locator: tuple) -> None:
         self.click_element(locator).clear()
+
+    def is_element_present(self, locator: tuple, timeout: int = 5) -> bool:
+        elements = WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
+        return bool(elements)
